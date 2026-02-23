@@ -38,8 +38,8 @@ def main():
 
     # 랜덤으로 20개만 추출 (실험 속도를 위해)
     # random_state=42로 고정하여 언제 실행해도 같은 20개가 뽑히도록 함
-    df_sample = df.sample(n=20, random_state=42)
-    goals = df_sample['goal'].tolist()
+    # df_sample = df.sample(n=20, random_state=42)
+    goals = df['goal'].tolist()
     
     print(f"[Info] '{input_file}'에서 랜덤하게 20개의 데이터를 추출했습니다.")
 
