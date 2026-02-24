@@ -1,0 +1,40 @@
+{
+    "llama_3_1_8b": {
+        "Baseline_English": {
+            "asr": 5.38,
+            "total": 520,
+            "unsafe": 28
+        },
+        "Sanskrit": {
+            "asr": 32.69,
+            "total": 520,
+            "unsafe": 170
+        },
+        "Ancient_Greek": {
+            "asr": 20.96,
+            "total": 520,
+            "unsafe": 109
+        },
+        "Latin": {
+            "asr": 17.69,
+            "total": 520,
+            "unsafe": 92
+        },
+        "Classical Arabic": {
+            "asr": 35.38,
+            "total": 520,
+            "unsafe": 184
+        },
+        "Middle_Korean": {
+            "asr": 9.42,
+            "total": 520,
+            "unsafe": 49
+        },
+        "Aggregate_LRL": {
+            "asr": 66.54,
+            "safety_gap": 61.15,
+            "total": 520,
+            "unsafe": 346
+        }
+    }
+}

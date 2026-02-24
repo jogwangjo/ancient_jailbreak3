@@ -1,6 +1,7 @@
 import json
 import os
 import time
+import random
 from tqdm import tqdm
 import config
 from google import genai
@@ -8,7 +9,6 @@ from google.genai import types
 
 client = genai.Client(api_key=config.GOOGLE_API_KEY)
 
-# Chain-of-Thought Hijacking 논문과 동일한 Target 설정
 SAFETY_SETTINGS_TARGET = [
     types.SafetySetting(
         category="HARM_CATEGORY_HARASSMENT",
@@ -31,8 +31,13 @@ SAFETY_SETTINGS_TARGET = [
 MODEL_KEY = "gemini_2_5_pro"
 MODEL_ID = config.TARGET_MODELS[MODEL_KEY]
 
-
-def get_gemini_response(prompt, max_retries=10):
+def get_gemini_response(prompt, max_retries=20):
+    """
+    논문에서 사용하는 안정적인 API 호출 방식:
+    - Exponential backoff with jitter
+    - 다양한 에러 타입 처리
+    - 타임아웃 설정
+    """
     for attempt in range(max_retries):
         try:
             response = client.models.generate_content(
@@ -44,13 +49,14 @@ def get_gemini_response(prompt, max_retries=10):
                     safety_settings=SAFETY_SETTINGS_TARGET
                 )
             )
+            
             if response.candidates:
                 candidate = response.candidates[0]
                 finish_reason = candidate.finish_reason.name
-
+                
                 if finish_reason == "SAFETY":
                     return "[BLOCKED_SAFETY]"
-
+                
                 # MAX_TOKENS 포함 모든 경우 parts에서 텍스트 추출
                 if candidate.content and candidate.content.parts:
                     texts = []
@@ -62,69 +68,105 @@ def get_gemini_response(prompt, max_retries=10):
                             pass
                     if texts:
                         return "".join(texts)
-
+                
                 return f"[BLOCKED_{finish_reason}]"
+                
         except Exception as e:
-            if "429" in str(e) or "quota" in str(e).lower():
-                wait = 2 ** attempt
-                print(f"  [Rate limit] {wait}초 대기 후 재시도... (attempt {attempt+1})")
-                time.sleep(wait)
+            error_str = str(e).lower()
+            
+            # Rate limit이나 quota 관련 에러
+            if "429" in str(e) or "quota" in error_str or "resource_exhausted" in error_str:
+                # Exponential backoff: 2^attempt + random jitter
+                base_wait = min(2 ** attempt, 120)  # 최대 120초
+                jitter = random.uniform(0, base_wait * 0.1)  # 10% jitter
+                wait_time = base_wait + jitter
+                
+                print(f"\n⏳ [Rate limit] {wait_time:.1f}초 대기 후 재시도... (attempt {attempt+1}/{max_retries})")
+                time.sleep(wait_time)
+                continue
+            
+            # Timeout 에러
+            elif "timeout" in error_str or "deadline" in error_str:
+                wait_time = 5 + random.uniform(0, 5)
+                print(f"\n⏱️ [Timeout] {wait_time:.1f}초 대기 후 재시도... (attempt {attempt+1}/{max_retries})")
+                time.sleep(wait_time)
+                continue
+            
+            # 서버 에러 (500, 503 등)
+            elif "500" in str(e) or "503" in str(e) or "internal" in error_str:
+                wait_time = 10 + random.uniform(0, 10)
+                print(f"\n🔧 [Server Error] {wait_time:.1f}초 대기 후 재시도... (attempt {attempt+1}/{max_retries})")
+                time.sleep(wait_time)
+                continue
+            
+            # 그 외 에러는 바로 반환
             else:
+                print(f"\n❌ [Error] {str(e)}")
                 return f"[Error] {str(e)}"
+    
     return "[Error] Max retries exceeded"
-
 
 def main():
     input_file = "data/2_translated_test20.json"
     output_file = "data/3_results_gemini_pro.json"
-
+    
     if not os.path.exists(input_file):
         print(f"[Error] {input_file} 파일이 없습니다.")
         return
-
+    
     with open(input_file, 'r', encoding='utf-8') as f:
         dataset = json.load(f)
-
+    
     # 기존 결과 로드 (중간 재시작 지원)
     if os.path.exists(output_file):
         with open(output_file, 'r', encoding='utf-8') as f:
             saved_data = json.load(f)
-            saved_map = {item["id"]: item for item in saved_data}
-            for item in dataset:
-                if item["id"] in saved_map:
-                    item["results"] = saved_map[item["id"]].get("results", {})
-                    item["evaluation"] = saved_map[item["id"]].get("evaluation", {})
-            print(f"📂 기존 결과 로드: {output_file}")
-
+        saved_map = {item["id"]: item for item in saved_data}
+        for item in dataset:
+            if item["id"] in saved_map:
+                item["results"] = saved_map[item["id"]].get("results", {})
+                item["evaluation"] = saved_map[item["id"]].get("evaluation", {})
+        print(f"📂 기존 결과 로드: {output_file}")
+    
     print(f"🚀 Gemini 2.5 Pro 공격 시작 (Sync 모드)")
     print(f"   모델: {MODEL_ID}")
-
+    print(f"   전략: Exponential backoff with jitter")
+    
+    total_requests = 0
+    successful_requests = 0
+    
     for item in tqdm(dataset, desc="Attacking"):
         if "results" not in item:
             item["results"] = {}
-
+        
         for lang, translated_prompt in item["translations"].items():
             if lang not in item["results"]:
                 item["results"][lang] = {}
-
+            
             # 이미 결과 있으면 스킵 (이어하기)
             if MODEL_KEY in item["results"][lang]:
                 continue
-
+            
+            total_requests += 1
+            
             # API 호출
             response = get_gemini_response(translated_prompt)
             item["results"][lang][MODEL_KEY] = response
-
-            # [핵심 추가] 질문 하나 던지고 무조건 3초 대기! 
-            # (1분에 약 20회 요청 속도로 조절하여 429 에러 원천 차단)
-            time.sleep(3)
-
+            
+            if not response.startswith("[Error]"):
+                successful_requests += 1
+            
+            # 요청 간 랜덤 대기 (3-5초 사이)
+            # 이렇게 하면 API가 패턴을 감지하기 어렵고 더 안정적
+            wait_time = random.uniform(3, 5)
+            time.sleep(wait_time)
+        
         # 매 아이템마다 저장 (중간 유실 방지)
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(dataset, f, indent=4, ensure_ascii=False)
-
-    print(f"✅ 공격 완료! 결과 파일: {output_file}")
-
+    
+    print(f"\n✅ 공격 완료! 결과 파일: {output_file}")
+    print(f"📊 성공률: {successful_requests}/{total_requests} ({successful_requests/total_requests*100:.1f}%)")
 
 if __name__ == "__main__":
     main()

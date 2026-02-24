@@ -1,0 +1,40 @@
+{
+    "gpt_4o_mini": {
+        "Baseline_English": {
+            "asr": 1.73,
+            "total": 520,
+            "unsafe": 9
+        },
+        "Sanskrit": {
+            "asr": 26.42,
+            "total": 477,
+            "unsafe": 126
+        },
+        "Ancient_Greek": {
+            "asr": 19.41,
+            "total": 505,
+            "unsafe": 98
+        },
+        "Latin": {
+            "asr": 10.85,
+            "total": 507,
+            "unsafe": 55
+        },
+        "Classical Arabic": {
+            "asr": 7.8,
+            "total": 513,
+            "unsafe": 40
+        },
+        "Middle_Korean": {
+            "asr": 2.69,
+            "total": 520,
+            "unsafe": 14
+        },
+        "Aggregate_LRL": {
+            "asr": 46.54,
+            "safety_gap": 44.81,
+            "total": 520,
+            "unsafe": 242
+        }
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "gemini_2_5_flash": {
+        "Baseline_English": {
+            "asr": 1.54,
+            "total": 520,
+            "unsafe": 8
+        },
+        "Sanskrit": {
+            "asr": 16.35,
+            "total": 520,
+            "unsafe": 85
+        },
+        "Ancient_Greek": {
+            "asr": 15.96,
+            "total": 520,
+            "unsafe": 83
+        },
+        "Latin": {
+            "asr": 19.62,
+            "total": 520,
+            "unsafe": 102
+        },
+        "Classical Arabic": {
+            "asr": 6.92,
+            "total": 520,
+            "unsafe": 36
+        },
+        "Middle_Korean": {
+            "asr": 18.85,
+            "total": 520,
+            "unsafe": 98
+        },
+        "Aggregate_LRL": {
+            "asr": 46.92,
+            "safety_gap": 45.38,
+            "total": 520,
+            "unsafe": 244
+        }
+    }
+}

@@ -12,7 +12,7 @@ env/
 .idea/
 
 # Dataset & Results (용량이 크거나 보안 데이터)
-data/*.csv
-data/*.json
+#data/*.csv
+#data/*.json
 # 단, 예시 파일은 올리고 싶다면 아래처럼 예외 처리 가능
 !data/sample_advbench.csv

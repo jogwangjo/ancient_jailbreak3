@@ -1,0 +1,118 @@
+{
+    "gpt_4o_mini": {
+        "Prefix_Injection": {
+            "Baseline_English": {
+                "asr": 2.0,
+                "total": 100,
+                "unsafe": 2
+            },
+            "Sanskrit": {
+                "asr": 32.0,
+                "total": 100,
+                "unsafe": 32
+            },
+            "Ancient_Greek": {
+                "asr": 32.0,
+                "total": 100,
+                "unsafe": 32
+            },
+            "Latin": {
+                "asr": 29.0,
+                "total": 100,
+                "unsafe": 29
+            },
+            "Classical Arabic": {
+                "asr": 14.0,
+                "total": 100,
+                "unsafe": 14
+            },
+            "Middle_Korean": {
+                "asr": 14.0,
+                "total": 100,
+                "unsafe": 14
+            },
+            "Aggregate_LRL": {
+                "asr": 67.0,
+                "safety_gap": 65.0,
+                "total": 100,
+                "unsafe": 67
+            }
+        },
+        "Refusal_Suppression": {
+            "Baseline_English": {
+                "asr": 6.0,
+                "total": 100,
+                "unsafe": 6
+            },
+            "Sanskrit": {
+                "asr": 36.0,
+                "total": 100,
+                "unsafe": 36
+            },
+            "Ancient_Greek": {
+                "asr": 22.0,
+                "total": 100,
+                "unsafe": 22
+            },
+            "Latin": {
+                "asr": 22.0,
+                "total": 100,
+                "unsafe": 22
+            },
+            "Classical Arabic": {
+                "asr": 16.0,
+                "total": 100,
+                "unsafe": 16
+            },
+            "Middle_Korean": {
+                "asr": 4.0,
+                "total": 100,
+                "unsafe": 4
+            },
+            "Aggregate_LRL": {
+                "asr": 59.0,
+                "safety_gap": 53.0,
+                "total": 100,
+                "unsafe": 59
+            }
+        },
+        "Poems": {
+            "Baseline_English": {
+                "asr": 14.0,
+                "total": 100,
+                "unsafe": 14
+            },
+            "Sanskrit": {
+                "asr": 15.0,
+                "total": 100,
+                "unsafe": 15
+            },
+            "Ancient_Greek": {
+                "asr": 29.0,
+                "total": 100,
+                "unsafe": 29
+            },
+            "Latin": {
+                "asr": 23.0,
+                "total": 100,
+                "unsafe": 23
+            },
+            "Classical Arabic": {
+                "asr": 30.0,
+                "total": 100,
+                "unsafe": 30
+            },
+            "Middle_Korean": {
+                "asr": 1.0,
+                "total": 100,
+                "unsafe": 1
+            },
+            "Aggregate_LRL": {
+                "asr": 61.0,
+                "safety_gap": 47.0,
+                "total": 100,
+                "unsafe": 61
+            }
+        }
+    }
+}

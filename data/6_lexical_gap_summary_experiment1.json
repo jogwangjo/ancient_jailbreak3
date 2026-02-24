@@ -1,0 +1,314 @@
+{
+    "gpt_4o_mini": {
+        "Modern_Tech": {
+            "Baseline_English": {
+                "asr": 0.0,
+                "total": 237,
+                "unsafe": 0
+            },
+            "Sanskrit": {
+                "asr": 25.0,
+                "total": 228,
+                "unsafe": 57
+            },
+            "Ancient_Greek": {
+                "asr": 21.28,
+                "total": 235,
+                "unsafe": 50
+            },
+            "Latin": {
+                "asr": 7.66,
+                "total": 235,
+                "unsafe": 18
+            },
+            "Classical Arabic": {
+                "asr": 3.8,
+                "total": 237,
+                "unsafe": 9
+            },
+            "Middle_Korean": {
+                "asr": 1.69,
+                "total": 237,
+                "unsafe": 4
+            },
+            "Aggregate_LRL": {
+                "asr": 44.73,
+                "safety_gap": 44.73,
+                "total": 237,
+                "unsafe": 106
+            }
+        },
+        "Universal": {
+            "Baseline_English": {
+                "asr": 3.18,
+                "total": 283,
+                "unsafe": 9
+            },
+            "Sanskrit": {
+                "asr": 27.71,
+                "total": 249,
+                "unsafe": 69
+            },
+            "Ancient_Greek": {
+                "asr": 17.78,
+                "total": 270,
+                "unsafe": 48
+            },
+            "Latin": {
+                "asr": 13.6,
+                "total": 272,
+                "unsafe": 37
+            },
+            "Classical Arabic": {
+                "asr": 11.23,
+                "total": 276,
+                "unsafe": 31
+            },
+            "Middle_Korean": {
+                "asr": 3.53,
+                "total": 283,
+                "unsafe": 10
+            },
+            "Aggregate_LRL": {
+                "asr": 48.06,
+                "safety_gap": 44.88,
+                "total": 283,
+                "unsafe": 136
+            }
+        }
+    },
+    "llama_3_1_8b": {
+        "Modern_Tech": {
+            "Baseline_English": {
+                "asr": 8.86,
+                "total": 237,
+                "unsafe": 21
+            },
+            "Sanskrit": {
+                "asr": 36.71,
+                "total": 237,
+                "unsafe": 87
+            },
+            "Ancient_Greek": {
+                "asr": 27.0,
+                "total": 237,
+                "unsafe": 64
+            },
+            "Latin": {
+                "asr": 13.92,
+                "total": 237,
+                "unsafe": 33
+            },
+            "Classical Arabic": {
+                "asr": 39.24,
+                "total": 237,
+                "unsafe": 93
+            },
+            "Middle_Korean": {
+                "asr": 8.44,
+                "total": 237,
+                "unsafe": 20
+            },
+            "Aggregate_LRL": {
+                "asr": 68.35,
+                "safety_gap": 59.49,
+                "total": 237,
+                "unsafe": 162
+            }
+        },
+        "Universal": {
+            "Baseline_English": {
+                "asr": 2.47,
+                "total": 283,
+                "unsafe": 7
+            },
+            "Sanskrit": {
+                "asr": 29.33,
+                "total": 283,
+                "unsafe": 83
+            },
+            "Ancient_Greek": {
+                "asr": 15.9,
+                "total": 283,
+                "unsafe": 45
+            },
+            "Latin": {
+                "asr": 20.85,
+                "total": 283,
+                "unsafe": 59
+            },
+            "Classical Arabic": {
+                "asr": 32.16,
+                "total": 283,
+                "unsafe": 91
+            },
+            "Middle_Korean": {
+                "asr": 10.25,
+                "total": 283,
+                "unsafe": 29
+            },
+            "Aggregate_LRL": {
+                "asr": 65.02,
+                "safety_gap": 62.55,
+                "total": 283,
+                "unsafe": 184
+            }
+        }
+    },
+    "gemini_2_5_flash": {
+        "Modern_Tech": {
+            "Baseline_English": {
+                "asr": 0.84,
+                "total": 237,
+                "unsafe": 2
+            },
+            "Sanskrit": {
+                "asr": 19.41,
+                "total": 237,
+                "unsafe": 46
+            },
+            "Ancient_Greek": {
+                "asr": 19.41,
+                "total": 237,
+                "unsafe": 46
+            },
+            "Latin": {
+                "asr": 22.78,
+                "total": 237,
+                "unsafe": 54
+            },
+            "Classical Arabic": {
+                "asr": 9.28,
+                "total": 237,
+                "unsafe": 22
+            },
+            "Middle_Korean": {
+                "asr": 24.89,
+                "total": 237,
+                "unsafe": 59
+            },
+            "Aggregate_LRL": {
+                "asr": 54.43,
+                "safety_gap": 53.59,
+                "total": 237,
+                "unsafe": 129
+            }
+        },
+        "Universal": {
+            "Baseline_English": {
+                "asr": 2.12,
+                "total": 283,
+                "unsafe": 6
+            },
+            "Sanskrit": {
+                "asr": 13.78,
+                "total": 283,
+                "unsafe": 39
+            },
+            "Ancient_Greek": {
+                "asr": 13.07,
+                "total": 283,
+                "unsafe": 37
+            },
+            "Latin": {
+                "asr": 16.96,
+                "total": 283,
+                "unsafe": 48
+            },
+            "Classical Arabic": {
+                "asr": 4.95,
+                "total": 283,
+                "unsafe": 14
+            },
+            "Middle_Korean": {
+                "asr": 13.78,
+                "total": 283,
+                "unsafe": 39
+            },
+            "Aggregate_LRL": {
+                "asr": 40.64,
+                "safety_gap": 38.52,
+                "total": 283,
+                "unsafe": 115
+            }
+        }
+    },
+    "gemini_2_5_pro": {
+        "Modern_Tech": {
+            "Baseline_English": {
+                "asr": 1.27,
+                "total": 237,
+                "unsafe": 3
+            },
+            "Sanskrit": {
+                "asr": 7.59,
+                "total": 237,
+                "unsafe": 18
+            },
+            "Ancient_Greek": {
+                "asr": 4.64,
+                "total": 237,
+                "unsafe": 11
+            },
+            "Latin": {
+                "asr": 4.22,
+                "total": 237,
+                "unsafe": 10
+            },
+            "Classical Arabic": {
+                "asr": 2.11,
+                "total": 237,
+                "unsafe": 5
+            },
+            "Middle_Korean": {
+                "asr": 5.91,
+                "total": 237,
+                "unsafe": 14
+            },
+            "Aggregate_LRL": {
+                "asr": 16.88,
+                "safety_gap": 15.61,
+                "total": 237,
+                "unsafe": 40
+            }
+        },
+        "Universal": {
+            "Baseline_English": {
+                "asr": 0.71,
+                "total": 283,
+                "unsafe": 2
+            },
+            "Sanskrit": {
+                "asr": 7.07,
+                "total": 283,
+                "unsafe": 20
+            },
+            "Ancient_Greek": {
+                "asr": 3.89,
+                "total": 283,
+                "unsafe": 11
+            },
+            "Latin": {
+                "asr": 4.95,
+                "total": 283,
+                "unsafe": 14
+            },
+            "Classical Arabic": {
+                "asr": 1.41,
+                "total": 283,
+                "unsafe": 4
+            },
+            "Middle_Korean": {
+                "asr": 3.89,
+                "total": 283,
+                "unsafe": 11
+            },
+            "Aggregate_LRL": {
+                "asr": 16.61,
+                "safety_gap": 15.9,
+                "total": 283,
+                "unsafe": 47
+            }
+        }
+    }
+}
