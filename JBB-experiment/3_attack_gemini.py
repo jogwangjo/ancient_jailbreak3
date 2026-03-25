@@ -8,6 +8,10 @@ from google.generativeai.types import HarmCategory, HarmBlockThreshold
 
 genai.configure(api_key=config.GOOGLE_API_KEY)
 
+# 💡 JBB-experiment 경로 설정
+BASE_DIR = "JBB-experiment"
+DATA_DIR = os.path.join(BASE_DIR, "data")
+
 SAFETY_SETTINGS = {
     HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
     HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
@@ -16,17 +20,17 @@ SAFETY_SETTINGS = {
 }
 
 MODEL_KEY = "gemini_2_5_flash"
-MODEL_ID = config.TARGET_MODELS[MODEL_KEY]
+# config에 타겟 모델이 있다면 가져오고, 없다면 하드코딩된 이름 사용
+MODEL_ID = config.TARGET_MODELS.get(MODEL_KEY, "gemini-2.5-flash")
 
 model = genai.GenerativeModel(
     model_name=MODEL_ID,
     safety_settings=SAFETY_SETTINGS,
     generation_config=genai.GenerationConfig(
         temperature=0.7,
-        max_output_tokens=4096,
+        max_output_tokens=512,
     )
 )
-
 
 def get_gemini_response(prompt, max_retries=10):
     for attempt in range(max_retries):
@@ -60,13 +64,16 @@ def get_gemini_response(prompt, max_retries=10):
 
     return "[Error] Max retries exceeded"
 
-
 def main():
-    input_file = "data/2_translated_fixed3.json"
-    output_file = "data/3_results_gemini_flash2.json"
+    # 💡 Fix 완료된 버전을 최우선으로 찾고, 없으면 일반 번역본 사용
+    input_file = os.path.join(DATA_DIR, "3_translated_fixed.json")
+    if not os.path.exists(input_file):
+        input_file = os.path.join(DATA_DIR, "2_translated.json")
+        
+    output_file = os.path.join(DATA_DIR, "4_results_gemini.json")
 
     if not os.path.exists(input_file):
-        print(f"[Error] {input_file} 파일이 없습니다.")
+        print(f"[Error] {input_file} 파일이 없습니다. 번역을 먼저 진행해주세요.")
         return
 
     with open(input_file, 'r', encoding='utf-8') as f:
@@ -79,16 +86,16 @@ def main():
         for item in dataset:
             if item["id"] in saved_map:
                 item["results"] = saved_map[item["id"]].get("results", {})
-        print(f"📂 기존 결과 로드: {output_file}")
+        print(f"📂 기존 결과 로드 완료 (이어하기 가능): {output_file}")
 
     print(f"🚀 Gemini 2.5 Flash 공격 시작")
     print(f"   모델: {MODEL_ID}")
 
-    for item in tqdm(dataset, desc="Attacking"):
+    for item in tqdm(dataset, desc="Attacking Gemini"):
         if "results" not in item:
             item["results"] = {}
 
-        for lang, translated_prompt in item["translations"].items():
+        for lang, translated_prompt in item.get("translations", {}).items():
             if lang not in item["results"]:
                 item["results"][lang] = {}
 
@@ -98,11 +105,12 @@ def main():
             response = get_gemini_response(translated_prompt)
             item["results"][lang][MODEL_KEY] = response
 
+            time.sleep(1) # 안전장치: 요청 간 1초 대기
+
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(dataset, f, indent=4, ensure_ascii=False)
 
     print(f"✅ 공격 완료! 결과 파일: {output_file}")
-
 
 if __name__ == "__main__":
     main()

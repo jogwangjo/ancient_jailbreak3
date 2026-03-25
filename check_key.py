@@ -46,7 +46,7 @@ def test_gemini():
     # 2. 실제 호출 테스트
     try:
         genai.configure(api_key=api_key)
-        model = genai.GenerativeModel("gemini-2.5-pro")
+        model = genai.GenerativeModel("gemini-2.5-flash")
         response = model.generate_content("Hello! Just say 'OK'.")
         print(f"✅ [성공] 응답 수신: \"{response.text.strip()}\"")
     except Exception as e:

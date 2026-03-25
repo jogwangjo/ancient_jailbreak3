@@ -7,9 +7,12 @@ import config
 
 openai_client = OpenAI(api_key=config.OPENAI_API_KEY)
 
+# 💡 JBB-experiment 경로 설정
+BASE_DIR = "JBB-experiment"
+DATA_DIR = os.path.join(BASE_DIR, "data")
+
 MODEL_KEY = "gpt_4o"
 MODEL_ID = "gpt-4o"
-
 
 def get_gpt_response(prompt, max_retries=5):
     for attempt in range(max_retries):
@@ -18,7 +21,7 @@ def get_gpt_response(prompt, max_retries=5):
                 model=MODEL_ID,
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.7,
-                max_tokens=4096
+                max_tokens=512
             )
             return response.choices[0].message.content
         except Exception as e:
@@ -30,13 +33,16 @@ def get_gpt_response(prompt, max_retries=5):
                 return f"[Error] {str(e)}"
     return "[Error] Max retries exceeded"
 
-
 def main():
-    input_file = "data/2_translated2.json"
-    output_file = "data/3_results_gpt4o.json"
+    # 💡 Fix 완료된 버전을 최우선으로 찾고, 없으면 일반 번역본 사용
+    input_file = os.path.join(DATA_DIR, "3_translated_fixed.json")
+    if not os.path.exists(input_file):
+        input_file = os.path.join(DATA_DIR, "2_translated.json")
+
+    output_file = os.path.join(DATA_DIR, "4_results_gpt4o.json")
 
     if not os.path.exists(input_file):
-        print(f"[Error] {input_file} 파일이 없습니다.")
+        print(f"[Error] {input_file} 파일이 없습니다. 번역을 먼저 진행해주세요.")
         return
 
     with open(input_file, 'r', encoding='utf-8') as f:
@@ -49,7 +55,7 @@ def main():
         for item in dataset:
             if item["id"] in saved_map:
                 item["results"] = saved_map[item["id"]].get("results", {})
-        print(f"📂 기존 결과 로드: {output_file}")
+        print(f"📂 기존 결과 로드 완료 (이어하기 가능): {output_file}")
 
     print(f"🚀 GPT-4o 공격 시작")
     print(f"   모델: {MODEL_ID}")
@@ -58,7 +64,7 @@ def main():
         if "results" not in item:
             item["results"] = {}
 
-        for lang, translated_prompt in item["translations"].items():
+        for lang, translated_prompt in item.get("translations", {}).items():
             if lang not in item["results"]:
                 item["results"][lang] = {}
 
@@ -68,13 +74,12 @@ def main():
             response = get_gpt_response(translated_prompt)
             item["results"][lang][MODEL_KEY] = response
 
-            time.sleep(0.5)
+            time.sleep(0.5) # 안전장치
 
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(dataset, f, indent=4, ensure_ascii=False)
 
     print(f"✅ 공격 완료! 결과 파일: {output_file}")
-
 
 if __name__ == "__main__":
     main()
