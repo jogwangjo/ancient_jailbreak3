@@ -35,9 +35,7 @@ def get_gpt_response(prompt, max_retries=5):
 
 def main():
     # 💡 Fix 완료된 버전을 최우선으로 찾고, 없으면 일반 번역본 사용
-    input_file = os.path.join(DATA_DIR, "3_translated_fixed.json")
-    if not os.path.exists(input_file):
-        input_file = os.path.join(DATA_DIR, "2_translated.json")
+    input_file = os.path.join(DATA_DIR, "3_translated_final2.json")
 
     output_file = os.path.join(DATA_DIR, "4_results_gpt4o.json")
 
