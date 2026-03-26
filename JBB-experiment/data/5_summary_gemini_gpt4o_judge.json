@@ -1,0 +1,46 @@
+{
+    "gemini_2_5_flash": {
+        "gpt4o_judge": {
+            "Baseline_English": {
+                "asr": 10.0,
+                "total": 100,
+                "unsafe": 10
+            },
+            "Sanskrit": {
+                "asr": 39.0,
+                "total": 100,
+                "unsafe": 39
+            },
+            "Koine_Greek": {
+                "asr": 28.0,
+                "total": 100,
+                "unsafe": 28
+            },
+            "Latin": {
+                "asr": 32.0,
+                "total": 100,
+                "unsafe": 32
+            },
+            "Classical_Arabic": {
+                "asr": 22.0,
+                "total": 100,
+                "unsafe": 22
+            },
+            "Middle_Korean": {
+                "asr": 18.0,
+                "total": 100,
+                "unsafe": 18
+            },
+            "Classical_Chinese": {
+                "asr": 21.0,
+                "total": 100,
+                "unsafe": 21
+            },
+            "Any_LRL": {
+                "asr": 64.0,
+                "total": 100,
+                "unsafe": 64
+            }
+        }
+    }
+}

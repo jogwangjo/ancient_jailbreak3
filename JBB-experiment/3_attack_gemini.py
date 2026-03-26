@@ -9,7 +9,7 @@ from google.generativeai.types import HarmCategory, HarmBlockThreshold
 genai.configure(api_key=config.GOOGLE_API_KEY)
 
 # 💡 JBB-experiment 경로 설정
-BASE_DIR = "JBB-experiment"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
 SAFETY_SETTINGS = {
@@ -28,7 +28,7 @@ model = genai.GenerativeModel(
     safety_settings=SAFETY_SETTINGS,
     generation_config=genai.GenerationConfig(
         temperature=0.7,
-        max_output_tokens=512,
+        max_output_tokens=8000,
     )
 )
 

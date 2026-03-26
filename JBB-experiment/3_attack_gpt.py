@@ -8,7 +8,7 @@ import config
 openai_client = OpenAI(api_key=config.OPENAI_API_KEY)
 
 # 💡 JBB-experiment 경로 설정
-BASE_DIR = "JBB-experiment"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
 MODEL_KEY = "gpt_4o"
